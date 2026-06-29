@@ -1,5 +1,5 @@
 import Image from "next/image";
-import type { Product } from "../../types/Product";
+import type { Product } from "../../types/product";
 // import type { Product } from "@/types/Product";
 
 type Props = {
@@ -19,7 +19,7 @@ function ProductCard({ product }: Props) {
         />
       </div>
 
-      <h2 className="mt-3 font-semibold text-lg">
+      <h2 className="mt-3 font-semibold text-lg text-gray-700">
         {product.name}
       </h2>
 
@@ -27,7 +27,7 @@ function ProductCard({ product }: Props) {
         ${product.price}
       </p>
 
-      <button className="mt-3 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800">
+      <button className="mt-3 w-full bg-black text-white py-2 rounded-lg hover:bg-gray-800 cursor-pointer">
         Add to Cart
       </button>
     </div>
