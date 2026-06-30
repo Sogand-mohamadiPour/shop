@@ -3,7 +3,6 @@
 import Image from "next/image";
 import type { Product } from "../../types/product";
 import { useCartStore } from "@/src/store/cartStore";
-import Link from "next/link";
 
 type Props = {
   product: Product;
@@ -24,7 +23,7 @@ function ProductCard({ product }: Props) {
           src={product.image}
           alt={product.name}
           fill
-          className="object-cover rounded-lg"
+          className="object-cover rounded-lg border border-blue-200"
         />
       </div>
 
@@ -38,6 +37,7 @@ function ProductCard({ product }: Props) {
         <button
           onClick={(e) => {
             e.stopPropagation();
+            e.preventDefault();
             addToCart(product);
           }}
           className="mt-3 w-full bg-black text-white py-2 rounded"
@@ -46,11 +46,25 @@ function ProductCard({ product }: Props) {
         </button>
       ) : (
         <div className="mt-3 flex items-center justify-between border border-black rounded px-3 py-2">
-          <button className="text-black" onClick={() => increase(product.id)}>
+          <button
+            className="text-black"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              increase(product.id);
+            }}
+          >
             +
           </button>
           <span className="text-black">{cartItem.quantity}</span>
-          <button className="text-black" onClick={() => decrease(product.id)}>
+          <button
+            className="text-black"
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              decrease(product.id);
+            }}
+          >
             -
           </button>
         </div>
