@@ -1,37 +1,39 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import debounce from "../../utils/debounce";
 
 function SearchInput() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const searchParamsRef = useRef(searchParams);
 
   const [value, setValue] = useState(searchParams.get("q") || "");
 
   useEffect(() => {
+    searchParamsRef.current = searchParams;
     setValue(searchParams.get("q") || "");
   }, [searchParams]);
-  const updateUrl = useMemo(
-    () =>
-      debounce((val: string) => {
-        const params = new URLSearchParams(searchParams.toString());
 
-        if (val) {
-          params.set("q", val);
-        } else {
-          params.delete("q");
-        }
+  const updateUrlRef = useRef(
+    debounce((val: string) => {
+      const params = new URLSearchParams(searchParamsRef.current.toString());
 
-        router.replace(`/?${params.toString()}`);
-      }, 500),
-    [router, searchParams],
+      if (val.trim()) {
+        params.set("q", val);
+      } else {
+        params.delete("q");
+      }
+      params.set("page", "1");
+
+      router.replace(`/?${params.toString()}`);
+    }, 500),
   );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-    updateUrl(e.target.value);
+    updateUrlRef.current(e.target.value);
   };
 
   return (
