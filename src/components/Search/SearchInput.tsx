@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import debounce from "../../utils/debounce"
+import debounce from "../../utils/debounce";
 
 function SearchInput() {
   const router = useRouter();
@@ -10,6 +10,9 @@ function SearchInput() {
 
   const [value, setValue] = useState(searchParams.get("q") || "");
 
+  useEffect(() => {
+    setValue(searchParams.get("q") || "");
+  }, [searchParams]);
   const updateUrl = useMemo(
     () =>
       debounce((val: string) => {
@@ -21,9 +24,9 @@ function SearchInput() {
           params.delete("q");
         }
 
-        router.push(`?${params.toString()}`);
+        router.replace(`/?${params.toString()}`);
       }, 500),
-    [router, searchParams]
+    [router, searchParams],
   );
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
