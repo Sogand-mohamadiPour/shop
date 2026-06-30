@@ -44,7 +44,6 @@ function SearchInput() {
         rounded-xl border
         px-4 py-2
         shadow-sm
-        outline-none
         focus:border-black
       "
     />
