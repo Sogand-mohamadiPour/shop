@@ -41,7 +41,7 @@ export default function CartDropdown({ isOpen }: Props) {
                 <p className="font-medium text-gray-800">{item.name}</p>
 
                 <p className="text-sm text-gray-500">
-                  Qty: {item.quantity}
+                  Quantity: {item.quantity}
                 </p>
               </div>
             </div>
