@@ -11,8 +11,10 @@ function SearchInput() {
   const [value, setValue] = useState(searchParams.get("q") || "");
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setValue(searchParams.get("q") || "");
   }, [searchParams]);
+  
   const updateUrl = useMemo(
     () =>
       debounce((val: string) => {
@@ -23,6 +25,7 @@ function SearchInput() {
         } else {
           params.delete("q");
         }
+        
         params.set("page", "1");
 
         router.replace(`/?${params.toString()}`);

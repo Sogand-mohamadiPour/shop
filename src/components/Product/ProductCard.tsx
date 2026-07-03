@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { Product } from "../../types/product";
 import { useCartStore } from "@/src/store/cartStore";
+import { useRouter } from "next/navigation";
 
 type Props = {
   product: Product;
@@ -16,8 +17,13 @@ function ProductCard({ product }: Props) {
 
   const cartItem = items.find((i) => i.id === product.id);
 
+  const router = useRouter();
+
   return (
-    <div className="border rounded-xl p-4 shadow-sm hover:shadow-md transition bg-white">
+    <div
+      onClick={() => router.push(`/product/${product.id}`)}
+      className="border rounded-xl p-4 shadow-sm hover:shadow-md transition bg-white cursor-pointer"
+    >
       <div className="relative w-full h-40">
         <Image
           src={product.image}
@@ -33,42 +39,44 @@ function ProductCard({ product }: Props) {
 
       <p className="text-gray-600">${product.price}</p>
 
-      {!cartItem ? (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            addToCart(product);
-          }}
-          className="mt-3 w-full bg-black text-white py-2 rounded"
-        >
-          Add to cart
-        </button>
-      ) : (
-        <div className="mt-3 flex items-center justify-between border border-black rounded px-3 py-2">
+      <div onClick={(e) => e.stopPropagation()} className="mt-3">
+        {!cartItem ? (
           <button
-            className="text-black"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              increase(product.id);
+              addToCart(product);
             }}
+            className="mt-3 w-full bg-black text-white py-2 rounded"
           >
-            +
+            Add to cart
           </button>
-          <span className="text-black">{cartItem.quantity}</span>
-          <button
-            className="text-black"
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              decrease(product.id);
-            }}
-          >
-            -
-          </button>
-        </div>
-      )}
+        ) : (
+          <div className="mt-3 flex items-center justify-between border border-black rounded px-3 py-2">
+            <button
+              className="text-black cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                increase(product.id);
+              }}
+            >
+              +
+            </button>
+            <span className="text-black">{cartItem.quantity}</span>
+            <button
+              className="text-black cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                decrease(product.id);
+              }}
+            >
+              -
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
