@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import type { Product } from "../../types/product";
-import { useCartStore } from "@/src/store/cartStore";
+import CartControls from "../Cart/CartControls";
 import { useRouter } from "next/navigation";
 
 type Props = {
@@ -10,13 +10,6 @@ type Props = {
 };
 
 function ProductCard({ product }: Props) {
-  const items = useCartStore((state) => state.items);
-  const addToCart = useCartStore((state) => state.addToCart);
-  const increase = useCartStore((state) => state.increase);
-  const decrease = useCartStore((state) => state.decrease);
-
-  const cartItem = items.find((i) => i.id === product.id);
-
   const router = useRouter();
 
   return (
@@ -40,42 +33,7 @@ function ProductCard({ product }: Props) {
       <p className="text-gray-600">${product.price}</p>
 
       <div onClick={(e) => e.stopPropagation()} className="mt-3">
-        {!cartItem ? (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              addToCart(product);
-            }}
-            className="mt-3 w-full bg-black text-white py-2 rounded"
-          >
-            Add to cart
-          </button>
-        ) : (
-          <div className="mt-3 flex items-center justify-between border border-black rounded px-3 py-2">
-            <button
-              className="text-black cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                increase(product.id);
-              }}
-            >
-              +
-            </button>
-            <span className="text-black">{cartItem.quantity}</span>
-            <button
-              className="text-black cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                decrease(product.id);
-              }}
-            >
-              -
-            </button>
-          </div>
-        )}
+        <CartControls product={product} />
       </div>
     </div>
   );

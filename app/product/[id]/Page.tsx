@@ -1,45 +1,48 @@
 import Image from "next/image";
+import { notFound } from "next/navigation";
+import type { Product } from "@/src/types/product";
+import CartControls from "@/src/components/Cart/CartControls";
 
-type Props = {
-  params: {
+type ProductPageProps = {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-async function getProduct(id: string) {
-  const res = await fetch(`http://localhost:3001/products/${id}`, {
+export default async function ProductPage({ params }: ProductPageProps) {
+  const { id } = await params;
+
+  const response = await fetch(`http://localhost:4000/products/${id}`, {
     cache: "no-store",
   });
 
-  if (!res.ok) {
-    return null;
+  if (!response.ok) {
+    notFound();
   }
 
-  return res.json();
-}
-
-export default async function ProductPage({ params }: Props) {
-  const product = await getProduct(params.id);
-
-  if (!product) {
-    return <p className="text-center mt-10">Product not found</p>;
-  }
+  const product: Product = await response.json();
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <Image
-        src={product.image}
-        alt={product.name}
-        className="w-full h-80 object-cover rounded-xl"
-      />
+    <main className="mx-auto max-w-5xl p-8 bg-white mt-5 rounded-lg">
+      <div className="grid md:grid-cols-2 gap-10">
+        <div className="relative aspect-square rounded-xl overflow-hidden border">
+          <Image
+            src={product.image}
+            alt={product.name}
+            fill
+          />
+        </div>
 
-      <h1 className="text-2xl font-bold mt-4">
-        {product.name}
-      </h1>
+        <div className="flex flex-col justify-center">
+          <h1 className="text-4xl font-bold text-black">{product.name}</h1>
 
-      <p className="text-gray-600 mt-2">
-        ${product.price}
-      </p>
-    </div>
+          <p className="mt-4 text-2xl font-semibold text-gray-800">${product.price}</p>
+
+          <div className="mt-8">
+            <CartControls product={product} />
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
