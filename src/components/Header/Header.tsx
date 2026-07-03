@@ -1,11 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BsCart2 } from "react-icons/bs";
 import { useCartStore } from "@/src/store/cartStore";
+import CartDropdown from "./CartDropdown";
 
 function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
   const totalItems = useCartStore((state) =>
     state.items.reduce((sum, item) => sum + item.quantity, 0),
   );
@@ -23,15 +27,21 @@ function Header() {
           />
         </Link>
 
-        <button className="relative rounded-full p-2 text-gray-700 transition hover:bg-gray-100 hover:text-black cursor-pointer">
-          <BsCart2 size={26} />
+        <div className="relative">
+          <button
+            onClick={() => setIsOpen((prev) => !prev)}
+            className="relative rounded-full p-2 text-gray-700 transition hover:bg-gray-100 hover:text-black cursor-pointer"
+          >
+            <BsCart2 size={26} />
 
-          {totalItems > 0 && (
-            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
-              {totalItems}
-            </span>
-          )}
-        </button>
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 rounded-full">
+                {totalItems}
+              </span>
+            )}
+          </button>
+          <CartDropdown isOpen={isOpen} />
+        </div>
       </div>
     </header>
   );
