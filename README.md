@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shop App
 
-## Getting Started
+An e-commerce application built with Next.js App Router.
 
-First, run the development server:
+## Features
+
+* Product listing
+* Product detail page
+* Search products by name
+* Server-side pagination
+* Shopping cart using Zustand
+* Dynamic cart quantity controls
+* Responsive product grid
+* Dynamic routes with the Next.js App Router
+* URL-based search and pagination
+* JSON Server as a mock backend
+
+## Tech Stack
+
+* Next.js (App Router)
+* React
+* TypeScript
+* Tailwind CSS
+* Zustand
+* JSON Server
+
+## Project Structure
+
+```text
+app/
+├── page.tsx
+├── layout.tsx
+└── product/
+    └── [id]/
+        └── page.tsx
+
+src/
+├── components/
+├── store/
+├── types/
+└── ...
+```
+
+## Installation
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+## Running the Project
+
+This project requires both the Next.js development server and the JSON Server API.
+
+### 1. Start JSON Server
+
+```bash
+npm run json-server
+```
+
+The API will be available at:
+
+```
+http://localhost:4000
+```
+
+### 2. Start the Next.js development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will run at:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Both servers must be running simultaneously.
 
-## Learn More
+## API
 
-To learn more about Next.js, take a look at the following resources:
+The application communicates with JSON Server running on port `4000`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Examples:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+GET /products
+GET /products/1
+```
 
-## Deploy on Vercel
+Pagination is implemented using JSON Server query parameters:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+_page
+_per_page
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Searching is implemented using:
+
+```
+name:contains
+```
+
+## Application Features
+
+### Search
+
+* Search is synchronized with the URL.
+* Search updates are debounced to reduce unnecessary requests.
+* Changing the search automatically resets pagination to page 1.
+
+### Pagination
+
+* Server-side pagination using JSON Server.
+* Current page is stored in the URL.
+* Invalid page numbers are safely clamped.
+
+### Product Details
+
+Each product card navigates to its own dynamic route:
+
+```
+/product/:id
+```
+
+The detail page fetches the selected product directly from the API.
+
+### Shopping Cart
+
+Shopping cart state is managed using Zustand.
+
+Users can:
+
+* Add products to the cart
+* Increase quantity
+* Decrease quantity
+* Remove products when quantity reaches zero
+
+The cart badge in the header updates automatically based on the global Zustand state.
+
+## Learning Objectives
+
+This project was built to practice:
+
+* Next.js App Router
+* Dynamic routing
+* Server Components
+* Client Components
+* TypeScript
+* Zustand state management
+* URL search parameters
+* Debounced search
+* Server-side pagination
+* Reusable component design
+* Component composition
+* React hooks
+* Fetching data from an API
+* Project structure and code organization
