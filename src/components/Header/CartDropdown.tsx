@@ -1,7 +1,7 @@
 "use client";
 
 import { useCartStore } from "@/src/store/cartStore";
-import Image from "next/image";
+import SafeImage from "../Ui/SafeImage";
 
 type Props = {
   isOpen: boolean;
@@ -29,7 +29,7 @@ export default function CartDropdown({ isOpen }: Props) {
               key={item.id}
               className="flex items-center gap-3 border-b p-4"
             >
-              <Image
+              <SafeImage
                 src={item.image}
                 alt={item.name}
                 className="h-12 w-12 rounded object-cover"

@@ -1,7 +1,7 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import type { Product } from "@/src/types/product";
 import CartControls from "@/src/components/Cart/CartControls";
+import SafeImage from "@/src/components/Ui/SafeImage";
 
 type ProductPageProps = {
   params: Promise<{
@@ -26,7 +26,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     <main className="mx-auto max-w-5xl p-8 bg-white mt-5 rounded-lg">
       <div className="grid md:grid-cols-2 gap-10">
         <div className="relative aspect-square rounded-xl overflow-hidden border">
-          <Image
+          <SafeImage
             src={product.image}
             alt={product.name}
             fill

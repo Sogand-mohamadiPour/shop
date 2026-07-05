@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import type { Product } from "../../types/product";
 import CartControls from "../Cart/CartControls";
 import { useRouter } from "next/navigation";
+import SafeImage from "../Ui/SafeImage";
 
 type Props = {
   product: Product;
@@ -18,7 +18,7 @@ function ProductCard({ product }: Props) {
       className="border rounded-xl p-4 shadow-sm hover:shadow-md transition bg-white cursor-pointer"
     >
       <div className="relative w-full h-40">
-        <Image
+        <SafeImage
           src={product.image}
           alt={product.name}
           fill
