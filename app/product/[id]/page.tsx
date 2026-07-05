@@ -2,6 +2,12 @@ import { notFound } from "next/navigation";
 import type { Product } from "@/src/types/product";
 import CartControls from "@/src/components/Cart/CartControls";
 import SafeImage from "@/src/components/Ui/SafeImage";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "detail product",
+  description: "see etail foe ordering",
+};
 
 type ProductPageProps = {
   params: Promise<{
